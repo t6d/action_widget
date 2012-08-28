@@ -35,8 +35,8 @@ module ActionWidget
       super unless name =~ /_widget$/
     
       klass = begin
-        @_action_widget_class_cache ||= {}
-        @_action_widget_class_cache[name] ||= "#{name.to_s.camelcase}".constantize
+       @_action_widget_class_cache       = {}
+       @_action_widget_class_cache[name] = "#{name.to_s.camelcase}".constantize
       rescue NameError => e
         super
       rescue LoadError => e
@@ -92,5 +92,24 @@ module ActionWidget
       end
       
   end if defined?(::Rails::Generators::Base)
+  
+  if defined?(::Middleman)
+    
+    module MiddlemanExtension
+    
+      class << self
+      
+        def registered(app)
+          app.send(:include, Helper)
+        end
+        alias included registered
+      
+      end
+    
+    end
+    
+    ::Middleman::Extensions.register(:action_widget, MiddlemanExtension)
+    
+  end
   
 end
