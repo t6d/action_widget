@@ -2,9 +2,17 @@ module ActionWidget
   module Extensions
     module Rails
       module Generators
-      
-        class Create < ::Rails::Generators::Base
-          source_root File.expand_path('../../support/templates', __FILE__)
+        
+        class Base < ::Rails::Generators::Base
+          
+          def self.namespace(name=nil)
+            super.sub(/extensions:rails:/, '')
+          end
+          
+        end
+        
+        class Create < Base
+          source_root File.expand_path('../../../../../support/templates', __FILE__)
           argument :widget_name, :type => :string
           class_option :rspec, :type => :boolean, :default => true, :description => "Generates rspec file"
 
