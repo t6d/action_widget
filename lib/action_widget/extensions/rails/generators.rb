@@ -37,7 +37,13 @@ module ActionWidget
             end
 
             def widget_class_name
-              /[Ww]idget$/.match(widget_name) ? widget_name.classify : "#{widget_name.classify}Widget"
+              name = /[Ww]idget$/.match(widget_name) ? widget_name : "#{widget_name}Widget"
+              
+              name = name.titleize
+              name = name.gsub(" ", '')
+              name = name.gsub("/", '::')
+              
+              name
             end
 
             def widget_helper_name
