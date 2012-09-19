@@ -17,13 +17,11 @@ module ActionWidget
           class_option :rspec, :type => :boolean, :default => true, :description => "Generates rspec file"
 
           def generate_widget_implementation_file
-            empty_directory 'app/widgets'
             template('widget.rb.erb', "app/widgets/#{widget_implementation_filename}")
           end
 
           def generate_widget_spec_file
             if defined?(::RSpec) && options.rspec?
-              empty_directory 'spec/widgets'
               template('widget_spec.rb.erb', "spec/widgets/#{widget_spec_filename}")
             end
           end
