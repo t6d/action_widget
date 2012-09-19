@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "action_widget"
   gem.require_paths = ["lib"]
-  gem.version       = "0.3.0"
+  gem.version       = "0.3.1"
   
   gem.add_dependency 'smart_properties', '~> 1.1'
 end
