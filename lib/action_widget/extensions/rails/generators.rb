@@ -11,19 +11,17 @@ module ActionWidget
           
         end
         
-        class Create < Base
+        class Widget < Base
           source_root File.expand_path('../../../../../support/templates', __FILE__)
           argument :widget_name, :type => :string
           class_option :rspec, :type => :boolean, :default => true, :description => "Generates rspec file"
 
           def generate_widget_implementation_file
-            empty_directory 'app/widgets'
             template('widget.rb.erb', "app/widgets/#{widget_implementation_filename}")
           end
 
           def generate_widget_spec_file
             if defined?(::RSpec) && options.rspec?
-              empty_directory 'spec/widgets'
               template('widget_spec.rb.erb', "spec/widgets/#{widget_spec_filename}")
             end
           end
@@ -39,7 +37,13 @@ module ActionWidget
             end
 
             def widget_class_name
-              /[Ww]idget$/.match(widget_name) ? widget_name.classify : "#{widget_name.classify}Widget"
+              name = /[Ww]idget$/.match(widget_name) ? widget_name : "#{widget_name}Widget"
+              
+              name = name.titleize
+              name = name.gsub(" ", '')
+              name = name.gsub("/", '::')
+              
+              name
             end
 
             def widget_helper_name
