@@ -11,7 +11,7 @@ module ActionWidget
           
         end
         
-        class Create < Base
+        class Widget < Base
           source_root File.expand_path('../../../../../support/templates', __FILE__)
           argument :widget_name, :type => :string
           class_option :rspec, :type => :boolean, :default => true, :description => "Generates rspec file"
