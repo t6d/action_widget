@@ -23,7 +23,8 @@ module ActionWidget
       def method_missing(method, *args, &block)
         view.send(method, *args, &block)
       rescue NoMethodError
-        super
+        # Double check - the NoMethodError might have occurred somewhere else.
+        view.respond_to?(method) ? raise : super
       end
     
   end
