@@ -5,17 +5,19 @@ module ActionWidget
       super unless name =~ /_widget$/
 
       klass = begin
-       @_action_widget_class_cache       = {}
-       @_action_widget_class_cache[name] = "#{name.to_s.camelcase}".constantize
-      rescue NameError => e
-        super
-      rescue LoadError => e
+        "#{name.to_s.camelcase}".constantize
+      rescue NameError, LoadError
         super
       end
 
-      klass.new(self, *args).render(&block)
+      ActionWidget::ViewHelper.module_eval <<-RUBY
+        def #{name}(*args, &block)                  # def example_widget(*args, &block)
+          #{klass}.new(self, *args).render(&block)  #   ExampleWidget.new(self, *args).render(&block)
+        end                                         # end
+      RUBY
+
+      send(name, *args, &block)
     end
 
   end
 end
-
