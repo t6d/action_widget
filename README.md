@@ -1,8 +1,9 @@
 # ActionWidget
 
-ActionWidget is a light-weight widget system for Ruby on Rails and Middleman.
-It is essentially a minimal tool set for building desktop-like UI components.
-The main idea behind ActionWidget is the separation of the concept of an UI
+ActionWidget is a light-weight widget system for [Ruby on
+Rails](http://rubyonrails.com) and [Middleman](http://middlemanapp.com).  It is
+essentially a minimal tool set for building desktop-like UI components.  The
+main idea behind ActionWidget is the separation of the concept of an UI
 component and its representation. While the representation of component might
 easily change over time, the concept of a component is unlikely to change
 significantly. Think of a button for instance: Most developers will agree that
@@ -10,7 +11,7 @@ a button is conceptually something that has a caption and when clicked triggers
 an action.  When we think about the visual representation of a button, however,
 things get more complicated. While most people will agree to a certain degree
 on what can visually be considered a button and what is something else, people
-tend to have different ideas of the exact representation of a button. There are
+tend to have different ideas about a buttons's exact representation. There are
 buttons with icons, without icons, round ones, rectangular ones, and so on.
 Despite their different appearances, the functionality and in this sense the
 component's concept stays the same: when clicked an action is triggered.
@@ -34,7 +35,75 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`ActionWidget` can be used to build arbitrarily complex view components. To
+illustrate the basic usage of `ActionWidget`, however, we start with a simple
+example, a widget for representing a button. The button we are designing must
+have a `caption` and a `type`. The type can either be `regular`, `accept`, or
+`cancel`. The button further must have a specified `size`, which can be
+`small`, `medium`, or `large`. Finally, the button requires a `target` that
+defines the resource it links to. `ActionWidget` compentens utilize
+[SmartProperties](http://github.com/t6d/smart_properties) to define attributes
+that can be configured to automatically enforce these constraints and provide
+sensible defaults.
+
+In the example below, we simple use an `<a>` tag to represent a button. The
+attributes `size` and `type` are simply translated into CSS classes. The
+`caption` will be used as the text encolsed by the `<a>` tag and the `target`
+will be used as the value the the `<a>` tag's `href` attribute.
+
+```ruby
+class ButtonWidget < ActionWidget::Base
+  property :caption,
+    converts: :to_s,
+    required: true
+
+  property :target,
+    converts: :to_s,
+    accepts: lambda { |uri| URI.parse(uri) rescue false },
+    required: true
+
+  property :type,
+    converts: :to_sym,
+    accepts: [:regular, :accept, :cancel],
+    default: :regular
+
+  property :size,
+    converts: :to_sym,
+    accepts: [:small, :medium, :large],
+    default: :medium
+
+  def render
+    content_tag(:a, caption, href: target, class: css_classes)
+  end
+
+protected
+
+  def css_classes
+    css_classes = ['btn']
+    css_classes << "btn-#{size}" unless size == :regular
+    css_classes << "btn-#{type}" unless type == :medium
+    css_classes
+  end
+end
+```
+
+By convention, a widget's class name should end in "Widget". This way,
+`ActionWidget` automatically generates `ActionView` helper methods for more
+convenient instantiation and rendering of a widget.
+
+In our example, the widget can be instantiated by simply calling the helper
+method `button_widget` and providing it with all necessary attributes:
+
+```erb
+<%= button_widget caption: 'Go to Admin Area', size: :small, target: '/admin' %>
+```
+
+Instead of using the provided helper method, a widget can always be instantiated
+manually:
+
+```erb
+<%= ButtonWidget.new(self, caption: 'Go to Admin Area', size: :small, target: '/admin').render %>
+```
 
 ## Contributing
 
