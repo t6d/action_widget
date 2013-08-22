@@ -2,12 +2,12 @@ module ActionWidget
   module ViewHelper
 
     def method_missing(name, *args, &block)
-      super unless name =~ /_widget$/
+      return super unless name =~ /_widget$/
 
       klass = begin
         "#{name.to_s.camelcase}".constantize
       rescue NameError, LoadError
-        super
+        return super
       end
 
       ActionWidget::ViewHelper.module_eval <<-RUBY
