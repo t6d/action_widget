@@ -176,6 +176,72 @@ end
 
 ### Nested Widgets
 
+Let's assume we want to implement a widget that simplifies the rendering of
+navigational menus. The widget only exposes one property, `orientation`, which
+can either be `horizontal` or `vertical`.
+
+```ruby
+class MenuWidget < ActionWidget::Base
+  property :orientation,
+    accepts: [:horizontal, :vertical],
+    converts: :to_sym,
+    default: :horizontal,
+    required: true
+
+  def render(&block)
+    content_tag(:nav, class: orientation) do
+      content_tag(:ul) do
+        capture(self, &block)
+      end
+    end
+  end
+
+  def item(caption, target)
+    content_tag(:li) do
+      content_tag(:a, caption, href: target)
+    end
+  end
+
+  def submenu(caption, &block)
+    content_tag(:li) do
+      content_tag(:span, caption) +
+        self.class.new(view, orientation: orientation).render(&block)
+    end
+  end
+end
+```
+
+The following example demonstrates how to use this widget:
+
+```erb
+<%= menu_widget do |m| %>
+  <%= m.item "Dashboard", "/" %>
+  <%= m.submenu "Admin" do |m| %>
+    <%= m.item "Manage Users", "/admin/users" %>
+    <%= m.item "Manage Groups", "/admin/groups" %>
+  <% end %>
+<% end %>
+```
+
+Executing the code above, will result in the following HTML being generated:
+
+```html
+<nav class="horizontal">
+  <ul>
+    <li> <a href="/">Dashboard</a> </li>
+    <li>
+      <span>Admin</span>
+      <nav class="horizontal">
+        <ul>
+          <li><a href="/admin/users">Manage Users</a></li>
+          <li><a href="/admin/groups">Manage Groups</a></li>
+        </ul>
+      </nav>
+    </li>
+  </ul>
+</nav>
+```
+
 ## Contributing
 
 1. Fork it
