@@ -37,11 +37,18 @@ Or install it yourself as:
 
 `ActionWidget` can be used to build arbitrarily complex view components. To
 illustrate the basic usage of `ActionWidget`, however, we start with a simple
-example, a widget for representing a button. The button we are designing must
-have a `caption` and a `type`. The type can either be `regular`, `accept`, or
-`cancel`. The button further must have a specified `size`, which can be
-`small`, `medium`, or `large`. Finally, the button requires a `target` that
-defines the resource it links to. `ActionWidget` compentens utilize
+example, a widget for representing a button, and then continue with widgets
+that except blocks. We will use a panel widget as an example. Finally, we see
+discuss how to build widgets that utilize wigets themselves for constructing
+navigation components.
+
+### Simple Widgets
+
+The button we are designing must have a `caption` and a `type`. The type can
+either be `regular`, `accept`, or `cancel`. The button further must have a
+specified `size`, which can be `small`, `medium`, or `large`. Finally, the
+button requires a `target` that defines the resource it links to.
+`ActionWidget` compentens utilize
 [SmartProperties](http://github.com/t6d/smart_properties) to define attributes
 that can be configured to automatically enforce these constraints and provide
 sensible defaults.
@@ -104,6 +111,70 @@ manually:
 ```erb
 <%= ButtonWidget.new(self, caption: 'Go to Admin Area', size: :small, target: '/admin').render %>
 ```
+
+### Widgets that Accept Blocks
+
+The panel widget we are building requires a `title` and a block that defines the
+widgets content.
+
+```ruby
+require 'action_widget'
+
+class PanelWidget < ActionWidget::Base
+  property :title, required: true, converts: :to_s
+
+  def render(&block)
+    content_tag(:h2, title) +
+      content_tag(:div, &block)
+  end
+end
+```
+
+Since widgets are simple Ruby classes, they naturally support inheritance.
+Let's assume we require a special panel widget for sidebars that renders a
+different header. There are two options:
+
+1. we can provide the tag that is chosen for the header as a property, or
+2. we restructure the `PanelWidget` class and then subclass it.
+
+Let's take the second approach and extract the header rendering and the content
+rendering into their own methods so we can overwrite either one of them in a
+potential subclass.
+
+```ruby
+class PanelWidget < ActionWidget::Base
+  property :title, required: true, converts: :to_s
+
+  def render(&block)
+    header + content(&block)
+  end
+
+  protected
+
+  def header
+    content_tag(:h2, title)
+  end
+
+  def content(&block)
+    content_tag(:div, &block)
+  end
+end
+```
+
+After this refactoring, we are able to subclass `PanelWidget` and customize the
+`header` method:
+
+```ruby
+class SidebarPanelWidget < PanelWidget
+  protected
+
+  def header
+    content_tag(:h3, title)
+  end
+end
+```
+
+### Nested Widgets
 
 ## Contributing
 
