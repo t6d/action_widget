@@ -112,6 +112,12 @@ manually:
 <%= ButtonWidget.new(self, caption: 'Go to Admin Area', size: :small, target: '/admin').render %>
 ```
 
+In both cases, the resulting HTML looks as follows:
+
+```html
+<a class="btn btn-small" href="/admin">Go to Admin Area</a>
+```
+
 ### Widgets that Accept Blocks
 
 The panel widget we are building requires a `title` and a block that defines the
@@ -124,10 +130,32 @@ class PanelWidget < ActionWidget::Base
   property :title, required: true, converts: :to_s
 
   def render(&block)
-    content_tag(:h2, title) +
-      content_tag(:div, &block)
+    content_tag(:div, class: 'panel') do
+      content_tag(:h2, title, class: 'title') +
+        content_tag(:div, class: 'content', &block)
+    end
   end
 end
+```
+
+Again, the automatically generated helper method, `#panel_widget` in this case,
+can be used to instantiate and render the widget:
+
+```erb
+<%= panel_widget title: "Important Notice" do %>
+  The system will be down for maintanence today.
+<% end %>
+```
+
+Executing the code above results in the follwing HTML:
+
+```html
+<div class="panel">
+  <h2 class="title">Important Notice</h2>
+  <div class="content">
+    The system will be down for maintanence today.
+  </div>
+</div>
 ```
 
 Since widgets are simple Ruby classes, they naturally support inheritance.
