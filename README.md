@@ -1,9 +1,9 @@
 # ActionWidget
 
-ActionWidget is a light-weight widget system for [Ruby on
-Rails](http://rubyonrails.com) and [Middleman](http://middlemanapp.com).  It is
-essentially a minimal tool set for building desktop-like UI components.  The
-main idea behind ActionWidget is the separation of the concept of an UI
+`ActionWidget` is a light-weight widget system for [Ruby on
+Rails](http://rubyonrails.com) and [Middleman](http://middlemanapp.com). It is
+essentially a minimal tool set for building desktop-like UI components. The
+main idea behind `ActionWidget` is the separation of the concept of an UI
 component and its representation. While the representation of component might
 easily change over time, the concept of a component is unlikely to change
 significantly. Think of a button for instance: Most developers will agree that
@@ -11,7 +11,7 @@ a button is conceptually something that has a caption and when clicked triggers
 an action.  When we think about the visual representation of a button, however,
 things get more complicated. While most people will agree to a certain degree
 on what can visually be considered a button and what is something else, people
-tend to have different ideas about a buttons's exact representation. There are
+tend to have different ideas about a button's exact representation. There are
 buttons with icons, without icons, round ones, rectangular ones, and so on.
 Despite their different appearances, the functionality and in this sense the
 component's concept stays the same: when clicked an action is triggered.
@@ -37,21 +37,21 @@ Or install it yourself as:
 
 `ActionWidget` can be used to build arbitrarily complex view components. To
 illustrate the basic usage of `ActionWidget`, however, we start with a simple
-example, a widget for representing a button, and then continue with widgets
-that except blocks. We will use a panel widget as an example. Finally, we see
-discuss how to build widgets that utilize wigets themselves for constructing
-navigation components.
+example, a widget for representing a button. We then continue with widgets that
+except blocks. We will use a widget representing panels as an example. Finally,
+we see discuss how to build widgets that utilize widgets themselves for
+constructing navigation components.
 
 ### Simple Widgets
 
-The button we are designing must have a `caption` and a `type`. The type can
-either be `regular`, `accept`, or `cancel`. The button further must have a
-specified `size`, which can be `small`, `medium`, or `large`. Finally, the
-button requires a `target` that defines the resource it links to.
-`ActionWidget` compentens utilize
-[SmartProperties](http://github.com/t6d/smart_properties) to define attributes
-that can be configured to automatically enforce these constraints and provide
-sensible defaults.
+The goal of this section is to build a widget that represents a button. The
+button we are designing must have a `caption` and a `type`. The type can either
+be `regular`, `accept`, or `cancel`. The button further must have a specified
+`size`, which can be `small`, `medium`, or `large`. Finally, the button
+requires a `target` that defines the resource it links to.  `ActionWidget`
+compentens utilize [SmartProperties](http://github.com/t6d/smart_properties) to
+define attributes that can be configured to automatically enforce these
+constraints and provide sensible defaults.
 
 In the example below, we simple use an `<a>` tag to represent a button. The
 attributes `size` and `type` are simply translated into CSS classes. The
