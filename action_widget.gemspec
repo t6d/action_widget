@@ -12,5 +12,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = "0.5.1"
 
-  gem.add_dependency 'smart_properties', '~> 1.1'
+  gem.add_dependency 'smart_properties', '~> 1.7'
 end
