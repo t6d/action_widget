@@ -2,10 +2,10 @@ module ActionWidget
   module ViewHelper
 
     def method_missing(name, *args, &block)
-      return super unless name =~ /_widget$/
+      return super unless ActionWidget.helper?(name)
 
       klass = begin
-        "#{name.to_s.camelcase}".constantize
+        ActionWidget.class_for(name)
       rescue NameError, LoadError
         return super
       end
