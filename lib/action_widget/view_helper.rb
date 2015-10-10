@@ -11,9 +11,10 @@ module ActionWidget
       end
 
       ActionWidget::ViewHelper.module_eval <<-RUBY
-        def #{name}(*args, &block)                  # def example_widget(*args, &block)
-          #{klass}.new(self, *args).render(&block)  #   ExampleWidget.new(self, *args).render(&block)
-        end                                         # end
+        def #{name}(*args, &block)                          # def example_widget(*args, &block)
+          attrs = args.last.kind_of?(Hash) ? args.pop : {}
+          #{klass}.new(self, attrs).render(*args, &block)   #   ExampleWidget.new(self, attrs).render(*args, &block)
+        end                                                 # end
       RUBY
 
       send(name, *args, &block)
