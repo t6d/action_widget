@@ -6,12 +6,11 @@ module ActionWidget
     attr_reader :options
 
     def initialize(view, attributes = {})
-      attributes = attributes.dup
       properties = self.class.properties
+      attributes, options = attributes.partition { |name, value| properties.key?(name) }
 
-      @options = attributes.delete_if { |name, value| properties.key?(name) }
-
-      super(view, attributes)
+      @options = Hash[options]
+      super(view, Hash[attributes])
     end
 
     def render
