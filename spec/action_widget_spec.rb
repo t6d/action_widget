@@ -33,8 +33,6 @@ RSpec.describe DummyWidget do
     end
 
     it "should be possible to reference a property using a string" do
-      pending "Requires a newer version of smart_properties: v1.10+"
-
       attributes = {"type" => 'teaser', class: 'wide'}
       expect(view.dummy_widget("Hello World", attributes)).to eq(expected_html)
     end
