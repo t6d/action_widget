@@ -20,6 +20,14 @@ module ActionWidget
   end
 
   class << self
+    def [](helper_name)
+      registry[helper_name]
+    end
+
+    def []=(helper_name, klass)
+      registry[helper_name] = klass
+    end
+
     def configuration
       @configuration ||= Configuration.new(suffix: "Widget")
     end
@@ -32,10 +40,27 @@ module ActionWidget
       !!configuration.pattern.match(name)
     end
 
-    def class_for(helper_name)
+    protected
+
+    def registry
+      @registry ||= Hash.new do |registry, helper_name|
+        if klass = find_action_widget(helper_name)
+          registry[helper_name] = klass
+        else
+          nil
+        end
+      end
+    end
+
+    private
+
+    def find_action_widget(helper_name)
+      return nil unless helper?(helper_name)
       basename = configuration.pattern.match(helper_name)[1]
       classname = [configuration.prefix, basename.camelcase, configuration.suffix].join("")
       classname.constantize
+    rescue NameError, LoadError
+      nil
     end
   end
 end

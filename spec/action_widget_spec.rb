@@ -17,6 +17,13 @@ class ViewContext < ActionView::Base
   include ActionWidget::ViewHelper
 end
 
+RSpec.describe ViewContext do
+  subject(:view_context) { described_class.new }
+  it 'should implement #respond_to_missing?' do
+    expect(view_context.send(:respond_to_missing?, :dummy_widget)).to eq(true)
+  end
+end
+
 RSpec.describe DummyWidget do
   let(:view) { ViewContext.new }
 
