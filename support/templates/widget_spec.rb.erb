@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-describe "<%= widget_class_name %>", :type => :helper do
-
-  subject { helper.<%= widget_helper_name %> }
-
+describe "<%= class_name %>", type: :helper do
+  subject(<%= ":%s" % helper_name %>) { helper.<%= helper_name %> }
 end

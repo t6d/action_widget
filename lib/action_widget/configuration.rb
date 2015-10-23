@@ -3,6 +3,9 @@ module ActionWidget
     include SmartProperties
     property :prefix
     property :suffix
+    property :superclass, required: true, default: -> { ActionWidget::Base }
+    property :directory, required: true, converts: :to_s, accepts: ->(string) { !string.empty? }, default: -> { [underscored_prefix, underscored_suffix].compact.join("_") }
+    property :minitest_superclass
 
     attr_reader :pattern
 
