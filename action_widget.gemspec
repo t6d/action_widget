@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require_relative 'lib/action_widget/version.rb'
+require File.expand_path('../lib/action_widget/version.rb', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Konstantin Tennhard"]

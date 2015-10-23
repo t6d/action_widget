@@ -1,3 +1,5 @@
+require 'rails/generators'
+
 module ActionWidget
   module Extensions
     module Rails
