@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+require_relative 'lib/action_widget/version.rb'
+
 Gem::Specification.new do |gem|
   gem.authors       = ["Konstantin Tennhard"]
   gem.email         = ["me@t6d.de"]
@@ -10,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "action_widget"
   gem.require_paths = ["lib"]
-  gem.version       = "0.6.0.pre"
+  gem.version       = ActionWidget::VERSION
 
   gem.add_dependency 'smart_properties', '~> 1.10'
 
