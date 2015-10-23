@@ -1,24 +1,6 @@
 require 'smart_properties'
 
 module ActionWidget
-  class Configuration
-    include SmartProperties
-    property :prefix
-    property :suffix
-
-    attr_reader :pattern
-
-    def initialize(*)
-      super
-
-      @pattern = Regexp.new([
-        (prefix.underscore if prefix.presence),
-        "(.*)",
-        (suffix.underscore if suffix.presence)
-      ].compact.join("_"))
-    end
-  end
-
   class << self
     def [](helper_name)
       registry[helper_name]
@@ -66,5 +48,6 @@ module ActionWidget
 end
 
 require 'action_widget/base'
+require 'action_widget/configuration'
 require 'action_widget/view_helper'
 require 'action_widget/extensions'

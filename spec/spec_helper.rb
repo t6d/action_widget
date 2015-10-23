@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'rspec'
 require 'action_view'
+require 'pry'
 
 require 'action_widget'
 
