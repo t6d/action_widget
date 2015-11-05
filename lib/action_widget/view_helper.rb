@@ -5,10 +5,9 @@ module ActionWidget
       return super if widget.nil?
 
       ActionWidget::ViewHelper.module_eval <<-RUBY
-        def #{name}(*args, &block)                          # def example_widget(*args, &block)
-          attrs = args.last.kind_of?(Hash) ? args.pop : {}
-          #{widget}.new(self, attrs).render(*args, &block)  #   ExampleWidget.new(self, attrs).render(*args, &block)
-        end                                                 # end
+        def #{name}(*args, &block)               # def example_widget(*args, &block)
+          #{widget}.render(self, *args, &block)  #   ExampleWidget.render(self, *args, &block)
+        end                                      # end
       RUBY
 
       send(name, *args, &block)

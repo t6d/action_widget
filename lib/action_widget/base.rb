@@ -5,6 +5,11 @@ module ActionWidget
 
     attr_reader :options
 
+    def self.render(view, *args, &block)
+      attrs = args.last.kind_of?(Hash) ? args.pop : {}
+      self.new(view, attrs).render(*args, &block)
+    end
+
     def initialize(view, attributes = {})
       properties = self.class.properties
       attributes, options = attributes.partition { |name, value| properties.key?(name) }
