@@ -15,6 +15,7 @@ Gem::Specification.new do |gem|
   gem.version       = ActionWidget::VERSION
 
   gem.add_dependency 'smart_properties', '~> 1.10'
+  gem.add_dependency 'activesupport', '> 2.2'
 
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake', '~> 10.0'
