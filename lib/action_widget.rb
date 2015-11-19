@@ -1,4 +1,5 @@
 require 'smart_properties'
+require 'active_support/core_ext/string'
 
 module ActionWidget
   class << self
