@@ -7,12 +7,12 @@ module ActionWidget
 
     def self.render(view, *args, &block)
       attrs = args.last.kind_of?(Hash) ? args.pop : {}
-      self.new(view, attrs).render(*args, &block)
+      self.new(view, **attrs).render(*args, &block)
     end
 
-    def initialize(view, attributes = {})
+    def initialize(view, **kwargs)
       properties = self.class.properties
-      attributes, options = attributes.partition { |name, value| properties.key?(name) }
+      attributes, options = kwargs.partition { |name, value| properties.key?(name) }
 
       @options = Hash[options]
       super(view, Hash[attributes])
@@ -23,4 +23,3 @@ module ActionWidget
     end
   end
 end
-

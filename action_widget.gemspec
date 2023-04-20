@@ -14,11 +14,13 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = ActionWidget::VERSION
 
-  gem.add_dependency 'smart_properties', '~> 1.10'
-  gem.add_dependency 'activesupport', '> 2.2'
+  gem.required_ruby_version = '>= 3.0.0'
+
+  gem.add_dependency 'smart_properties', '~> 1.17'
+  gem.add_dependency 'activesupport', '> 6.1'
 
   gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'rake', '~> 10.0'
-  gem.add_development_dependency 'rspec', '~> 3.3'
-  gem.add_development_dependency 'actionview', '~> 4.0'
+  gem.add_development_dependency 'rake', '~> 13.0'
+  gem.add_development_dependency 'rspec', '~> 3.12'
+  gem.add_development_dependency 'actionview', '~> 7.0'
 end
