@@ -18,14 +18,14 @@ class ViewContext < ActionView::Base
 end
 
 RSpec.describe ViewContext do
-  subject(:view_context) { described_class.new }
+  subject(:view_context) { described_class.empty }
   it 'should implement #respond_to_missing?' do
     expect(view_context.send(:respond_to_missing?, :dummy_widget)).to eq(true)
   end
 end
 
 RSpec.describe DummyWidget do
-  let(:view) { ViewContext.new }
+  let(:view) { ViewContext.empty }
 
   it "should delegate unknown method calls to the view context" do
     expect(described_class.new(view).render).to eq("<p></p>")
