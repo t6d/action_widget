@@ -14,9 +14,9 @@ Gem::Specification.new do |gem|
   gem.name                  = 'action_widget'
   gem.require_paths         = ['lib']
   gem.version               = ActionWidget::VERSION
-  gem.required_ruby_version = '>= 2.7.0'
+  gem.required_ruby_version = '>= 3.0.0'
 
-  gem.add_dependency 'activesupport', '> 2.2'
+  gem.add_dependency 'activesupport', '> 6.0'
   gem.add_dependency 'smart_properties', '~> 1.10'
 
   gem.add_development_dependency 'actionview', '>= 6.0'
