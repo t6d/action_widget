@@ -5,7 +5,9 @@ module ActionWidget
     module Rails
       class Railtie < ::Rails::Railtie
         initializer "action_widget.helper" do
-          ActionView::Base.send(:include, ::ActionWidget::ViewHelper)
+          ActiveSupport.on_load(:action_view) do
+            include  ActionWidget::ViewHelper
+          end
         end
       end
     end
