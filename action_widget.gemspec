@@ -22,6 +22,10 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'actionview', '>= 6.0'
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec', '~> 3.3'
+  gem.add_development_dependency 'rspec', '~> 3.13'
   gem.add_development_dependency 'ruby-lsp'
+  gem.add_development_dependency 'ostruct'
+  gem.add_development_dependency 'mutex_m'
+  gem.add_development_dependency 'base64'
+  gem.add_development_dependency 'bigdecimal'
 end
