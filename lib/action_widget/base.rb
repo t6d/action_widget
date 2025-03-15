@@ -18,7 +18,7 @@ module ActionWidget
       super(view, Hash[attributes])
     end
 
-    def render
+    def render(*)
       raise NotImplementedError, "#{self.class} must implement #render"
     end
   end
