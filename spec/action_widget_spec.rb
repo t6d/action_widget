@@ -27,6 +27,10 @@ end
 RSpec.describe DummyWidget do
   let(:view) { ViewContext.empty }
 
+  it "should be registered" do
+    expect(ActionWidget[:dummy_widget]).to be(DummyWidget)
+  end
+
   it "should delegate unknown method calls to the view context" do
     expect(described_class.new(view).render).to eq("<p></p>")
   end
@@ -47,6 +51,28 @@ RSpec.describe DummyWidget do
     specify "keyword arguments that do not correspond to a property should be captured as options" do
       instance = described_class.new(view, class: 'wide')
       expect(instance.options).to eq({class: 'wide'})
+    end
+  end
+
+  context "with custom configuration" do
+    let(:expected_html) { '<p>Hello World</p>' }
+
+    before do
+      ActionWidget.configure do |config|
+        config.helper_suffix = nil
+      end
+    end
+
+    it "should have an adjusted helper pattern" do
+      expect(ActionWidget.configuration.helper_pattern).to eq(/^(.*?)$/)
+    end
+
+    it "should be possible to override the helper suffix" do
+      expect(view.dummy("Hello World")).to eq(expected_html)
+    end
+
+    after do
+      ActionWidget.configure {}
     end
   end
 end

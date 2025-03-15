@@ -40,7 +40,7 @@ module ActionWidget
           end
 
           def test_filename
-            "#{helper_name}_test.rb"
+            "#{filename}_test.rb"
           end
 
           def spec_path
@@ -48,7 +48,7 @@ module ActionWidget
           end
 
           def spec_filename
-            "#{helper_name}_spec.rb"
+            "#{filename}_spec.rb"
           end
 
           def implementation_path
@@ -56,11 +56,15 @@ module ActionWidget
           end
 
           def implementation_filename
-            "#{helper_name}.rb"
+            "#{filename}.rb"
+          end
+
+          def filename
+            [configuration.class_prefix&.underscore, basename.underscore, configuration.class_suffix&.underscore].compact.join('_')
           end
 
           def class_name
-            [configuration.prefix, basename.classify, configuration.suffix].join('')
+            [configuration.class_prefix, basename.classify, configuration.class_suffix].compact.join('')
           end
 
           def superclass_name
@@ -68,15 +72,17 @@ module ActionWidget
           end
 
           def minitest_superclass_name
-            (configuration.minitest_superclass || "ActionView::TestCase").to_s
+            configuration.minitest_superclass.to_s
           end
 
           def helper_name
-            class_name.underscore
+            [configuration.helper_prefix, basename.underscore, configuration.helper_suffix].compact.join('_')
           end
 
           def basename
-            if match = name.underscore.match(configuration.pattern)
+            if match = name.match(configuration.class_pattern)
+              match[1]
+            elsif match = name.match(configuration.helper_pattern)
               match[1]
             else
               name

@@ -12,15 +12,11 @@ module ActionWidget
     end
 
     def configuration
-      @configuration ||= Configuration.new(suffix: "Widget")
+      @configuration ||= Configuration.new
     end
 
     def configure(&block)
-      @configuration = Configuration.new(&block)
-    end
-
-    def helper?(name)
-      !!configuration.pattern.match(name)
+      @configuration = Configuration.new.tap(&block)
     end
 
     protected
@@ -38,9 +34,10 @@ module ActionWidget
     private
 
     def find_action_widget(helper_name)
-      return nil unless helper?(helper_name)
-      basename = configuration.pattern.match(helper_name)[1]
-      classname = [configuration.prefix, basename.camelcase, configuration.suffix].join("")
+      match = configuration.helper_pattern.match(helper_name)
+      return nil if match.nil?
+      basename = match[1]
+      classname = [configuration.class_prefix, basename.classify, configuration.class_suffix].join("")
       classname.constantize
     rescue NameError, LoadError
       nil

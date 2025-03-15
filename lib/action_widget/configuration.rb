@@ -1,34 +1,25 @@
 module ActionWidget
   class Configuration
     include SmartProperties
-    property :prefix
-    property :suffix
-    property :superclass, required: true, default: -> { ActionWidget::Base }
-    property :directory, required: true, converts: :to_s, accepts: ->(string) { !string.empty? }, default: -> { [underscored_prefix, underscored_suffix].compact.join("_").pluralize }
-    property :minitest_superclass
 
-    attr_reader :pattern
+    property :class_prefix
+    property :class_suffix, default: "Widget"
+    property :helper_prefix
+    property :helper_suffix, default: "widget"
+    property! :superclass, default: "ActionWidget::Base"
+    property! :directory,
+              converts: :to_s,
+              accepts: ->(string) { !string.empty? },
+              default: "widgets"
+    property! :minitest_superclass,
+              default: "ActionView::TestCase"
 
-    def initialize(*)
-      super
-
-      @pattern = Regexp.new("^%s$" % [
-        underscored_prefix,
-        "(.*)",
-        underscored_suffix
-      ].compact.join("_"))
+    def class_pattern
+      Regexp.new("^%s$" % [class_prefix, "(.*?)", class_suffix].compact.join(""))
     end
 
-    private
-
-    def underscored_prefix
-      return if prefix.nil?
-      prefix.underscore
-    end
-
-    def underscored_suffix
-      return if suffix.nil?
-      suffix.underscore
+    def helper_pattern
+      Regexp.new("^%s$" % [helper_prefix, "(.*?)", helper_suffix].compact.join("_"))
     end
   end
 end

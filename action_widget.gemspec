@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 3.0.0'
 
   gem.add_dependency 'activesupport', '> 6.0'
-  gem.add_dependency 'smart_properties', '~> 1.10'
+  gem.add_dependency 'smart_properties', '~> 1.12'
 
   gem.add_development_dependency 'actionview', '>= 6.0'
   gem.add_development_dependency 'pry'
