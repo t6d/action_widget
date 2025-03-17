@@ -21,17 +21,39 @@ change.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add `ActionWidget` to your application by running
 
-    gem 'action_widget'
+    $ bundle add action_widget
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+or install it manually by running:
 
     $ gem install action_widget
+
+### Ruby on Rails
+
+If you're working with Ruby on Rails, please run
+
+    $ bin/rails action_widget:install
+
+in addition to one of the above commands to generate the initializer that allows 
+you to configure `ActionWidget`. The resulting initializer will be located at 
+`config/initializers/action_widget.rb` and should look as follows:
+
+```ruby
+ActionWidget.configure do |config|
+  # config.class_prefix = ""
+  config.class_suffix = "Widget"
+
+  # config.helper_prefix = ""
+  config.helper_suffix = "widget"
+
+  config.directory = "widgets"
+end
+```
+
+As shown in the example above, `ActionWidget` allows you to customize
+prefixes and suffixes for class names and helper names, respectively, as well as
+specify the directory name that will house your widgets within the `app/` directory.
 
 ## Usage
 
